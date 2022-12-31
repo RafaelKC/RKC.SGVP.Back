@@ -17,6 +17,7 @@ describe('UsersService', () => {
           useValue: {
             create: jest.fn(),
             save: jest.fn(),
+            findOne: jest.fn(),
           },
         }
       ],
@@ -52,6 +53,30 @@ describe('UsersService', () => {
       expect(result).toBeTruthy();
       expect(usersRepository.create).toBeCalledTimes(1);
       expect(usersRepository.save).toBeCalledTimes(1);
+    })
+  })
+
+  describe('getByEmailOrUsername', () => {
+    it('should  find a user by email or username ', async () => {
+      // Arrange
+      const userToBeFound = {
+        firstName: 'Jon',
+        lastName: ' Gates',
+        username: 'jonGates',
+        email: 'jonGates@mail.com',
+        isActive: true,
+        id: 'ea09da88-99f6-4bc0-b28b-297a6502f02a'
+      } as User
+
+      jest.spyOn(usersRepository, 'findOne').mockResolvedValueOnce(userToBeFound)
+
+      // Act
+      const result = await usersService.getByEmailOrUsername('jonGate');  
+
+      // Assert
+      expect(result).toBe(userToBeFound);
+      expect(usersRepository.findOne).toBeCalledWith({"where": [{"email": "jonGate", "username": "jonGate"}]});
+      expect(usersRepository.findOne).toBeCalledTimes(1);
     })
   })
 

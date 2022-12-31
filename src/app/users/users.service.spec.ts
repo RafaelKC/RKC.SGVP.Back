@@ -47,11 +47,12 @@ describe('UsersService', () => {
       jest.spyOn(usersRepository, 'save').mockResolvedValueOnce(userToBeCreated)
 
       // Act
-      const result = await usersService.create(new User());  
+      const result = await usersService.create(userToBeCreated);  
 
       // Assert
       expect(result).toBeTruthy();
       expect(usersRepository.create).toBeCalledTimes(1);
+      expect(usersRepository.create).toBeCalledWith(userToBeCreated);
       expect(usersRepository.save).toBeCalledTimes(1);
     })
   })

@@ -15,10 +15,8 @@ export class UsersService implements IUsersService {
     public async getByEmailOrUsername(emailOrUserName: string): Promise<User | null> {
         return await this._usersRepository.findOne({
             where: [
-                {
-                    username: emailOrUserName,
-                    email: emailOrUserName
-                }
+                { username: emailOrUserName },
+                { email: emailOrUserName },
             ]
         })
     }

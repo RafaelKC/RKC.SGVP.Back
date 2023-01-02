@@ -3,7 +3,6 @@ import { PassportStrategy } from '@nestjs/passport';
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { AuthenticationService } from '../authentication.service';
 import { User } from 'rkc.base.back';
-import { throws } from 'assert';
 import { UserLogin } from '../dtos/user-login.dto';
 
 @Injectable()

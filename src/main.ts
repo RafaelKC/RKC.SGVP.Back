@@ -11,7 +11,10 @@ async function bootstrap() {
 
 	const configService = app.get(ConfigService);	
   const port = configService.get('PORT');
+  const apiVersion = configService.get('API_VERSION');
 	
+  app.setGlobalPrefix(`api/${apiVersion}`)
+
   await app.listen(port);
 }
 bootstrap();

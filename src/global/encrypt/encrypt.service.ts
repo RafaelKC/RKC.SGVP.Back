@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
-import { createCipheriv, createDecipheriv, randomBytes, scrypt } from 'crypto';
+import { ConfigService } from '@nestjs/config';
+import { createCipheriv, createDecipheriv, randomBytes, scrypt,  } from 'crypto';
 import { promisify } from 'util';
 import { IEncryptService } from './iEncrypt.service.interface';
 
@@ -7,13 +8,29 @@ import { IEncryptService } from './iEncrypt.service.interface';
 @Injectable()
 export class EncryptService implements IEncryptService {
 
-    public async compareEncryptString(stringToCompare: string, encryptedStr: string, password: string): Promise<boolean> {
-        const stringToCompareEncrypted = await this.encryptString(stringToCompare, password);
+    private iv: Buffer;
 
-        return stringToCompareEncrypted === encryptedStr;
+    constructor(private readonly _configService: ConfigService) {
+        this.iv = Buffer.from(String(this._configService.get('AUTH_ENCRYPTION_IV')))
     }
 
-    private iv = randomBytes(16);
+    public async decryptString(strToDecrypt: string, password: string): Promise<string> {
+        const key = (await promisify(scrypt)(password, 'salt', 32)) as Buffer;
+
+        const decipher = createDecipheriv('aes-256-ctr', key, this.iv);
+        const decryptedText = Buffer.concat([
+            decipher.update(Buffer.from(strToDecrypt, 'hex')),
+            decipher.final(),
+        ]);
+
+        return decryptedText.toString();
+    }
+
+    public async compareEncryptString(stringToCompare: string, encryptedStr: string, password: string): Promise<boolean> {
+        const stringDecrypted = await this.decryptString(encryptedStr, password);
+
+        return stringDecrypted === stringToCompare;
+    }
 
     public async encryptString(strToEncrypt: string, password: string): Promise<string> {
         const key = (await promisify(scrypt)(password, 'salt', 32)) as Buffer;
@@ -24,6 +41,6 @@ export class EncryptService implements IEncryptService {
             cipher.final(),
         ]);
 
-        return encryptedStr.toString();
+        return encryptedStr.toString('hex');
     }
 }

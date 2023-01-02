@@ -7,7 +7,18 @@ import { ConfigModule } from '@nestjs/config';
 import { GlobalModule } from 'src/global/global.module';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([User, UserCredential]), ConfigModule, GlobalModule],
-  providers: [UsersService, UsersCredentialsService]
+  imports: [
+    TypeOrmModule.forFeature([User, UserCredential]),
+    ConfigModule,
+    GlobalModule,
+  ],
+  providers: [
+    UsersService,
+    UsersCredentialsService,
+  ],
+  exports: [
+    UsersService,
+    UsersCredentialsService,
+  ]
 })
 export class UsersModule {}

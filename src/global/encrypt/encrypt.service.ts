@@ -7,6 +7,12 @@ import { IEncryptService } from './iEncrypt.service.interface';
 @Injectable()
 export class EncryptService implements IEncryptService {
 
+    public async compareEncryptString(stringToCompare: string, encryptedStr: string, password: string): Promise<boolean> {
+        const stringToCompareEncrypted = await this.encryptString(stringToCompare, password);
+
+        return stringToCompareEncrypted === encryptedStr;
+    }
+
     private iv = randomBytes(16);
 
     public async encryptString(strToEncrypt: string, password: string): Promise<string> {

@@ -1,10 +1,12 @@
 import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
+import { JwtService } from '@nestjs/jwt';
 import { User } from 'rkc.base.back';
 import { EncryptService } from 'src/global/encrypt/encrypt.service';
 import { UsersCredentialsService } from '../users/users-credentials/users-credentials.service';
 import { UsersService } from '../users/users.service';
 import { iAuthenticationService } from './authentication.service.interface';
+import { LoginResult } from './dtos/login-result.dto';
 import { UserLogin } from './dtos/user-login.dto';
 
 @Injectable()
@@ -15,6 +17,7 @@ export class AuthenticationService implements iAuthenticationService {
         private readonly _usersCredentialsService: UsersCredentialsService,
         private readonly _encryptService: EncryptService,
         private readonly _configService: ConfigService,
+        private readonly _jwtService: JwtService,
     ) {}
 
     public async validateUser(userLogin: UserLogin): Promise<User | null> {
@@ -34,6 +37,12 @@ export class AuthenticationService implements iAuthenticationService {
 
         return user;
 
+    }
+
+    public async login(user: User): Promise<LoginResult> {
+        const payload = { user: user };
+        const accessToken = this._jwtService.sign(payload);
+        return new LoginResult(accessToken, user);
     }
 
 }

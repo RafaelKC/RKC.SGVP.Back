@@ -5,7 +5,7 @@ import { UserCredential } from 'rkc.base.back';
 import { EncryptService } from '../../../global/encrypt/encrypt.service';
 import { Repository } from 'typeorm';
 import { UsersCredentialsService } from './users-credentials.service';
-import { UserCredentialNotEncrypted } from './dtos/users-credentials-not-encrypted';
+import { UserCredentialNotEncrypted } from './dtos/users-credentials-not-encrypted.dto';
 
 describe('UsersCredentialsService', () => {
   let usersCredentialsService: UsersCredentialsService;

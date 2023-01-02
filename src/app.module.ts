@@ -4,6 +4,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { User, UserCredential } from 'rkc.base.back';
 import { UsersModule } from './app/users/users.module';
 import { GlobalModule } from './global/global.module';
+import { AuthenticationModule } from './app/authentication/authentication.module';
 
 @Module({
   imports: [
@@ -29,7 +30,8 @@ import { GlobalModule } from './global/global.module';
       inject: [ConfigService]
     }),
     UsersModule,
-    GlobalModule
+    GlobalModule,
+    AuthenticationModule
   ]
 })
 export class AppModule { }

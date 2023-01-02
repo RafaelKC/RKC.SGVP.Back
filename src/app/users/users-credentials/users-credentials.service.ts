@@ -4,7 +4,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { IUserCredential, UserCredential } from 'rkc.base.back';
 import { EncryptService } from '../../../global/encrypt/encrypt.service';
 import { Repository } from 'typeorm';
-import { UserCredentialNotEncrypted } from './dtos/users-credentials-not-encrypted';
+import { UserCredentialNotEncrypted } from './dtos/users-credentials-not-encrypted.dto';
 import { IUsersCredentialsService } from './iUsers-credentials.service.interface';
 
 @Injectable()

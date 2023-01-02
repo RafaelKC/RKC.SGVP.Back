@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { InjectRepository } from '@nestjs/typeorm';
 import { IUserCredential, UserCredential } from 'rkc.base.back';
-import { EncryptService } from 'src/global/encrypt/encrypt.service';
+import { EncryptService } from '../../../global/encrypt/encrypt.service';
 import { Repository } from 'typeorm';
 import { UserCredentialNotEncrypted } from './dtos/users-credentials-not-encrypted';
 import { IUsersCredentialsService } from './iUsers-credentials.service.interface';
@@ -22,6 +22,10 @@ export class UsersCredentialsService implements IUsersCredentialsService {
             userCredentialNotEncrypted.notEncryptedPassword,
             String(this._configService.get('AUTH_ENCRYPTION_PASSWORD'))
         );
+
+        if(!encryptedPassword || encryptedPassword == userCredentialNotEncrypted.notEncryptedPassword) {
+            return false;
+        }
 
         const userCredential = {
             encryptedPassword,

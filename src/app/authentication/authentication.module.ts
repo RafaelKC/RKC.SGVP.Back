@@ -2,7 +2,7 @@ import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { JwtModule } from '@nestjs/jwt';
 import { PassportModule } from '@nestjs/passport';
-import { GlobalModule } from 'src/global/global.module';
+import { GlobalModule } from '../../global/global.module';
 import { UsersModule } from '../users/users.module';
 import { AuthenticationService } from './authentication.service';
 import { LocalStrategy } from './strategies/local.strategy';

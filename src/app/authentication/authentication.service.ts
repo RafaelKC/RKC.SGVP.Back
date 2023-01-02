@@ -22,7 +22,7 @@ export class AuthenticationService implements iAuthenticationService {
 
     public async validateUser(userLogin: UserLogin): Promise<User | null> {
         const user = await this._usersService.getByEmailOrUsername(userLogin.usernameOrEmail);
-        if (!user) return null;
+        if (!user || !user.isActive) return null;
 
         const userCredentials = await this._usersCredentialsService.getByUserId(user.id);
         if (!userCredentials) return null;
@@ -39,8 +39,8 @@ export class AuthenticationService implements iAuthenticationService {
 
     }
 
-    public async login(user: User): Promise<LoginResult> {
-        const payload = { user: user };
+    public login(user: User): LoginResult {
+        const payload = { user };
         const accessToken = this._jwtService.sign(payload);
         return new LoginResult(accessToken, user);
     }

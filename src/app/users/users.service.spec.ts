@@ -76,7 +76,7 @@ describe('UsersService', () => {
 
       // Assert
       expect(result).toBe(userToBeFound);
-      expect(usersRepository.findOne).toBeCalledWith({"where": [{"email": "jonGate", "username": "jonGate"}]});
+      expect(usersRepository.findOne).toBeCalledWith({"where": [{"username": "jonGate" }, { "email": "jonGate"}]});
       expect(usersRepository.findOne).toBeCalledTimes(1);
     })
   })

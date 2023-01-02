@@ -1,10 +1,24 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { User } from 'rkc.base.back';
+import { User, UserCredential } from 'rkc.base.back';
 import { UsersService } from './users.service';
+import { UsersCredentialsService } from './users-credentials/users-credentials.service';
+import { ConfigModule } from '@nestjs/config';
+import { GlobalModule } from 'src/global/global.module';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([User])],
-  providers: [UsersService]
+  imports: [
+    TypeOrmModule.forFeature([User, UserCredential]),
+    ConfigModule,
+    GlobalModule,
+  ],
+  providers: [
+    UsersService,
+    UsersCredentialsService,
+  ],
+  exports: [
+    UsersService,
+    UsersCredentialsService,
+  ]
 })
 export class UsersModule {}

@@ -47,11 +47,12 @@ describe('UsersService', () => {
       jest.spyOn(usersRepository, 'save').mockResolvedValueOnce(userToBeCreated)
 
       // Act
-      const result = await usersService.create(new User());  
+      const result = await usersService.create(userToBeCreated);  
 
       // Assert
       expect(result).toBeTruthy();
       expect(usersRepository.create).toBeCalledTimes(1);
+      expect(usersRepository.create).toBeCalledWith(userToBeCreated);
       expect(usersRepository.save).toBeCalledTimes(1);
     })
   })
@@ -75,7 +76,7 @@ describe('UsersService', () => {
 
       // Assert
       expect(result).toBe(userToBeFound);
-      expect(usersRepository.findOne).toBeCalledWith({"where": [{"email": "jonGate", "username": "jonGate"}]});
+      expect(usersRepository.findOne).toBeCalledWith({"where": [{"username": "jonGate" }, { "email": "jonGate"}]});
       expect(usersRepository.findOne).toBeCalledTimes(1);
     })
   })

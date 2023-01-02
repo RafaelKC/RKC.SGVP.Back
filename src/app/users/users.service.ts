@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { IUser, User } from 'rkc.base.back';
 import { Equal, Repository } from 'typeorm';
-import { IUsersService } from './users.service.interface';
+import { IUsersService } from './iUsers.service.interface';
 
 @Injectable()
 export class UsersService implements IUsersService {
@@ -15,10 +15,8 @@ export class UsersService implements IUsersService {
     public async getByEmailOrUsername(emailOrUserName: string): Promise<User | null> {
         return await this._usersRepository.findOne({
             where: [
-                {
-                    username: emailOrUserName,
-                    email: emailOrUserName
-                }
+                { username: emailOrUserName },
+                { email: emailOrUserName },
             ]
         })
     }

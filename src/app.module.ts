@@ -1,8 +1,10 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { User } from 'rkc.base.back';
+import { User, UserCredential } from 'rkc.base.back';
 import { UsersModule } from './app/users/users.module';
+import { GlobalModule } from './global/global.module';
+import { AuthenticationModule } from './app/authentication/authentication.module';
 
 @Module({
   imports: [
@@ -20,13 +22,16 @@ import { UsersModule } from './app/users/users.module';
         database: configService.get('DB_DATABASE'),
         entities: [
           __dirname + '/**/*.entity.ts',
-          User
+          User,
+          UserCredential
         ],
         synchronize: configService.get<boolean>('PROD'),
       }),
       inject: [ConfigService]
     }),
-    UsersModule
+    UsersModule,
+    GlobalModule,
+    AuthenticationModule
   ]
 })
 export class AppModule { }

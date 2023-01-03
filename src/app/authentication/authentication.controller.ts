@@ -1,6 +1,8 @@
-import { Controller, Post, UseGuards, Request } from '@nestjs/common';
+import { Controller, Post, UseGuards, Request, Res } from '@nestjs/common';
+import { Response } from 'express';
 import { User } from 'rkc.base.back';
 import { AuthenticationService } from './authentication.service';
+import { JwtAuthGuard } from './jwt-auth/jwt-auth.guard';
 import { LocalAuthGuard } from './local-auth/local-auth.guard';
 
 @Controller('authentication')
@@ -10,7 +12,15 @@ export class AuthenticationController {
 
     @UseGuards(LocalAuthGuard)
     @Post('login')
-    public login(@Request() req: any) {
-        return this._authService.login(req.user as User)
+    public async login(@Request() req: any) {
+        return await this._authService.login(req.user as User)
+    }
+
+    @UseGuards(JwtAuthGuard)
+    @Post('logout')
+    public async logout(@Request() req: any, @Res() res: Response) {
+        if (await this._authService.logout((req.user as User).id)) {
+            res.status(302).redirect('/login')
+        }
     }
 }

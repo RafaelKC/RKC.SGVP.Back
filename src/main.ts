@@ -12,7 +12,11 @@ async function bootstrap(): Promise<void> {
   const apiVersion = configService.get('API_VERSION');
 
   app.setGlobalPrefix(`api/${apiVersion}`);
-  app.useGlobalPipes(new ValidationPipe());
+  app.useGlobalPipes(
+    new ValidationPipe({
+      forbidUnknownValues: false,
+    }),
+  );
 
   await app.listen(port);
 }

@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Post, Put, Query, Res, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post, Put, Query, Res, UseGuards } from '@nestjs/common';
 import { Response } from 'express';
 import { ICategoryService } from './iCategory.service.interface';
 import { JwtAuthGuard } from '../authentication/jwt-auth/jwt-auth.guard';
@@ -6,18 +6,23 @@ import { Category } from './entities/category.entity';
 import { CategoryGetAllInput } from './dtos/category-get-all-input.dto';
 import { PagedGetAllResult } from 'src/global/dtos/paged-get-all-result.dto';
 import { CategoryInput } from './dtos/category-input.dto';
+import { isUUID } from 'class-validator';
 
 @Controller('category')
 export class CategoryController {
   constructor(private readonly _categoryService: ICategoryService) {}
 
   @UseGuards(JwtAuthGuard)
-  @Get()
-  public async getById(@Query() categoryId: string, @Res() res: Response): Promise<Category | void> {
+  @Get(':categoryId')
+  public async getById(@Param('categoryId') categoryId: string, @Res() res: Response): Promise<Category | void> {
+    if (!isUUID(categoryId)) {
+      res.status(400).send({ message: 'categoryId must be a valid UUID' });
+      return;
+    }
     const category = await this._categoryService.getById(categoryId);
 
-    if (category) return category;
-    res.status(404).send();
+    if (!category) res.status(404).send({ message: 'categoryId not found' });
+    res.status(200).send(category);
   }
 
   @UseGuards(JwtAuthGuard)
@@ -33,18 +38,23 @@ export class CategoryController {
   }
 
   @UseGuards(JwtAuthGuard)
-  @Put()
+  @Put(':categoryId')
   public async update(
     @Body() category: CategoryInput,
-    @Query() categoryId: string,
+    @Param('categoryId') categoryId: string,
     @Res() res: Response,
   ): Promise<void> {
+    if (!isUUID(categoryId)) {
+      res.status(400).send({ message: 'categoryId must be a valid UUID' });
+      return;
+    }
+
     const result = await this._categoryService.update(categoryId, category);
 
     if (result) {
       res.status(200).send();
     } else {
-      res.status(404).send();
+      res.status(404).send({ message: 'categoryId not found' });
     }
   }
 }

@@ -1,4 +1,4 @@
-import { IsBoolean, IsEnum, IsNotEmpty, IsString } from 'class-validator';
+import { IsBoolean, IsEnum, IsNotEmpty, IsString, IsOptional } from 'class-validator';
 import { Brand } from 'src/global/enums';
 import { ICategory } from '../entities/iCategory.interface';
 
@@ -11,7 +11,11 @@ export class CategoryInput implements ICategory {
   @IsString()
   public name: string;
 
-  @IsNotEmpty()
+  @IsOptional()
   @IsBoolean()
   public isActive: boolean;
+
+  constructor() {
+    this.isActive = true;
+  }
 }

@@ -5,11 +5,12 @@ import { User, UserCredential } from 'rkc.base.back';
 import { UsersModule } from './app/users/users.module';
 import { GlobalModule } from './global/global.module';
 import { AuthenticationModule } from './app/authentication/authentication.module';
+import { CategoryModule } from './app/category/category.module';
 
 @Module({
   imports: [
     ConfigModule.forRoot({
-      expandVariables: true
+      expandVariables: true,
     }),
     TypeOrmModule.forRootAsync({
       imports: [ConfigModule],
@@ -20,18 +21,15 @@ import { AuthenticationModule } from './app/authentication/authentication.module
         username: configService.get('DB_USERNAME'),
         password: configService.get('DB_PASSWORD'),
         database: configService.get('DB_DATABASE'),
-        entities: [
-          __dirname + '/**/*.entity.ts',
-          User,
-          UserCredential
-        ],
+        entities: [__dirname + '/**/*.entity.ts', User, UserCredential],
         synchronize: configService.get<boolean>('PROD'),
       }),
-      inject: [ConfigService]
+      inject: [ConfigService],
     }),
     UsersModule,
     GlobalModule,
-    AuthenticationModule
-  ]
+    AuthenticationModule,
+    CategoryModule,
+  ],
 })
-export class AppModule { }
+export class AppModule {}

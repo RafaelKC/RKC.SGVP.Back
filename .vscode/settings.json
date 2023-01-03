@@ -1,7 +1,3 @@
 {
-    "cSpell.words": [
-        "Demillus",
-        "Fastify",
-        "Natura"
-    ]
+  "cSpell.words": ["Demillus", "Fastify", "Natura", "nestjs", "typeorm"]
 }

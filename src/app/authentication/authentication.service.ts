@@ -43,13 +43,12 @@ export class AuthenticationService implements iAuthenticationService {
     }
 
     public async validateAccessToken(userId: string): Promise<boolean> {
-        let b =await this._cacheService.get(userId)
         return !(await this._cacheService.get(userId));
     }
 
     public async login(user: User): Promise<LoginResult> {
         const payload = { user };
-        const accessToken = await this._jwtService.signAsync(payload);
+        const accessToken = this._jwtService.sign(payload);
         await this._cacheService.del(user.id)
         return new LoginResult(accessToken, user);
     }

@@ -8,6 +8,7 @@ import { AuthenticationService } from './authentication.service';
 import { UserLogin } from './dtos/user-login.dto';
 import { User, UserCredential } from 'rkc.base.back';
 import { LoginResult } from './dtos/login-result.dto';
+import { CACHE_MANAGER } from '@nestjs/common';
 
 describe('AuthenticationService', () => {
   let authenticationService: AuthenticationService;
@@ -16,6 +17,7 @@ describe('AuthenticationService', () => {
   let usersCredentialsService: UsersCredentialsService;
   let configService: ConfigService;
   let jwtService: JwtService;
+  let cacheService: Cache;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
@@ -51,6 +53,14 @@ describe('AuthenticationService', () => {
             sign: jest.fn()
           }
         },
+        {
+          provide: CACHE_MANAGER,
+          useValue: {
+            get: jest.fn(),
+            set: jest.fn(),
+            del: jest.fn(),
+          }
+        },
       ],
     }).compile();
 
@@ -61,6 +71,7 @@ describe('AuthenticationService', () => {
     encryptService = module.get<EncryptService>(EncryptService);
     configService = module.get<ConfigService>(ConfigService);
     jwtService = module.get<JwtService>(JwtService);
+    cacheService = module.get<Cache>(CACHE_MANAGER);
   });
 
   it('should be defined', () => {
@@ -71,6 +82,7 @@ describe('AuthenticationService', () => {
     expect(encryptService).toBeDefined();
     expect(configService).toBeDefined();
     expect(jwtService).toBeDefined();
+    expect(cacheService).toBeDefined();
   });
 
   describe('Testing Methods', () => {
@@ -142,7 +154,7 @@ describe('AuthenticationService', () => {
       jest.spyOn(jwtService, 'sign').mockReturnValueOnce('1234567890');
 
       // Act
-      const result = authenticationService.login(user);
+      const result = await authenticationService.login(user);
 
       // Arrange
       expect(result).toStrictEqual(new LoginResult('1234567890', user));
@@ -156,5 +168,4 @@ describe('AuthenticationService', () => {
       expect(configService.get).not.toBeCalled();
     })
   })
-
 });

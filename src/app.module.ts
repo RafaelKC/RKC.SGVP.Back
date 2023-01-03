@@ -12,7 +12,7 @@ import { AuthenticationModule } from './app/authentication/authentication.module
       expandVariables: true
     }),
     TypeOrmModule.forRootAsync({
-      imports:[ConfigModule],
+      imports: [ConfigModule],
       useFactory: async (configService: ConfigService) => ({
         type: 'postgres',
         host: configService.get('DB_HOST'),

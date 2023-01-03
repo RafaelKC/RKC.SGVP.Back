@@ -1,4 +1,5 @@
 import { Test, TestingModule } from '@nestjs/testing';
+import { Response } from 'express';
 import { User } from 'rkc.base.back';
 import { AuthenticationController } from './authentication.controller';
 import { AuthenticationService } from './authentication.service';
@@ -15,7 +16,8 @@ describe('AuthenticationController', () => {
         {
           provide: AuthenticationService,
           useValue: {
-            login: jest.fn()
+            login: jest.fn(),
+            logout: jest.fn()
           }
         }
       ]
@@ -52,7 +54,7 @@ describe('AuthenticationController', () => {
         user
       } as LoginResult
 
-      jest.spyOn(authenticationService, 'login').mockReturnValue(loginResult);
+      jest.spyOn(authenticationService, 'login').mockResolvedValue(loginResult);
 
       // Act
       var response = await authenticationController.login(request);
@@ -61,6 +63,40 @@ describe('AuthenticationController', () => {
       expect(response).toBe(loginResult);
       expect(authenticationService.login).toBeCalledTimes(1);
       expect(authenticationService.login).toBeCalledWith(user);
+
+    })
+
+    it('logout', async () => {
+      // Assert
+      const user = {
+        firstName: 'Jon',
+        lastName: ' Gates',
+        username: 'jonGates',
+        email: 'jonGates@mail.com',
+        isActive: true,
+        id: 'ea09da88-99f6-4bc0-b28b-297a6502f02a'
+      } as User
+
+      const request = {
+        user 
+      }
+
+      jest.spyOn(authenticationService, 'logout').mockResolvedValue(true);
+
+      // Act
+      var response = await authenticationController.logout(request, {
+        status(code) {
+          return {
+            redirect(url) {}
+          } as Response
+        },
+      } as Response);
+
+      // Arrange
+      console.log(response)
+      expect(response).not.toBeDefined();
+      expect(authenticationService.logout).toBeCalledTimes(1);
+      expect(authenticationService.logout).toBeCalledWith(user.id);
 
     })
   });

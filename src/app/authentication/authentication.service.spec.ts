@@ -26,32 +26,32 @@ describe('AuthenticationService', () => {
         {
           provide: UsersService,
           useValue: {
-            getByEmailOrUsername: jest.fn()
-          }
+            getByEmailOrUsername: jest.fn(),
+          },
         },
         {
           provide: UsersCredentialsService,
           useValue: {
-            getByUserId: jest.fn()
-          }
+            getByUserId: jest.fn(),
+          },
         },
         {
           provide: EncryptService,
           useValue: {
-            compareEncryptString: jest.fn()
-          }
+            compareEncryptString: jest.fn(),
+          },
         },
         {
           provide: ConfigService,
           useValue: {
-            get: jest.fn()
-          }
+            get: jest.fn(),
+          },
         },
         {
           provide: JwtService,
           useValue: {
-            sign: jest.fn()
-          }
+            sign: jest.fn(),
+          },
         },
         {
           provide: CACHE_MANAGER,
@@ -59,7 +59,7 @@ describe('AuthenticationService', () => {
             get: jest.fn(),
             set: jest.fn(),
             del: jest.fn(),
-          }
+          },
         },
       ],
     }).compile();
@@ -87,7 +87,7 @@ describe('AuthenticationService', () => {
 
   describe('Testing Methods', () => {
     it('ValidateUser', async () => {
-      // Assert 
+      // Assert
       const user = {
         firstName: 'Jon',
         lastName: ' Gates',
@@ -115,7 +115,7 @@ describe('AuthenticationService', () => {
 
       // Act
       const result = await authenticationService.validateUser(userLogin);
-      
+
       // Arrange
 
       expect(result).toBe(user);
@@ -130,15 +130,14 @@ describe('AuthenticationService', () => {
       expect(encryptService.compareEncryptString).toBeCalledWith(
         userLogin.password,
         userCredentials.encryptedPassword,
-        '1234'
+        '1234',
       );
 
       expect(configService.get).toBeCalledTimes(1);
       expect(configService.get).toBeCalledWith('AUTH_ENCRYPTION_PASSWORD');
 
       expect(jwtService.sign).not.toBeCalled();
-
-    })
+    });
 
     it('login', async () => {
       // Assert
@@ -166,6 +165,6 @@ describe('AuthenticationService', () => {
       expect(usersCredentialsService.getByUserId).not.toBeCalled();
       expect(encryptService.compareEncryptString).not.toBeCalled();
       expect(configService.get).not.toBeCalled();
-    })
-  })
+    });
+  });
 });

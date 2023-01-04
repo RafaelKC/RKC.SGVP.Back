@@ -1,6 +1,7 @@
 import { Category } from 'src/app/category/entities/category.entity';
 import { Brand } from 'src/global/enums';
 import { Response } from 'express';
+import { ObjectLiteral, SelectQueryBuilder, UpdateQueryBuilder } from 'typeorm';
 
 export class TestUtils {
   private _UUIDs: Array<string> = [
@@ -55,7 +56,7 @@ export class TestUtils {
     {
       brand: Brand.Natura,
       id: this._UUIDs[1],
-      isActive: true,
+      isActive: false,
       name: this._Strings[1],
     } as Category,
     {
@@ -68,6 +69,7 @@ export class TestUtils {
   public get Categories(): Array<Category> {
     return this._Categories;
   }
+
   public get Response(): Response {
     const res = {} as Response;
 

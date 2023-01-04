@@ -45,22 +45,16 @@ export class CategoryService implements ICategoryService {
     return await this._categoryRepository.save(this._categoryRepository.create(category));
   }
 
-  public async update(categoryId: string, category: ICategory): Promise<boolean> {
-    if (category.brand == null || !category.name || !categoryId) {
+  public async update(categoryId: string, categoryToUpdate: ICategory): Promise<boolean> {
+    if (categoryToUpdate.brand == null || !categoryToUpdate.name || !categoryId) {
       return false;
     }
 
-    const updateResult = await this._categoryRepository
-      .createQueryBuilder('category')
-      .update()
-      .set({
-        brand: category.brand,
-        name: category.name,
-        isActive: category.isActive,
-      })
-      .where(`id = '${categoryId}'`)
-      .execute();
+    const category = await this.getById(categoryId);
+    if (!category) return false;
 
-    return Boolean(updateResult.affected);
+    this._categoryRepository.save(this._categoryRepository.merge(category, categoryToUpdate));
+
+    return true;
   }
 }

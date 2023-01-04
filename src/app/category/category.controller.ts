@@ -20,9 +20,11 @@ export class CategoryController {
       return;
     }
     const category = await this._categoryService.getById(categoryId);
-
-    if (!category) res.status(404).send({ message: 'categoryId not found' });
-    res.status(200).send(category);
+    if (category) {
+      res.status(200).send(category);
+      return;
+    }
+    res.status(404).send({ message: 'categoryId not found' });
   }
 
   @UseGuards(JwtAuthGuard)

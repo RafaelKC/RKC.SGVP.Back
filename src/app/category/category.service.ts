@@ -1,11 +1,11 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { PagedGetListResult } from 'rkc.base.back';
 import { Raw, Repository } from 'typeorm';
 import { CategoryGetAllInput } from './dtos/category-get-all-input.dto';
 import { Category } from './entities/category.entity';
 import { ICategory } from './entities/iCategory.interface';
 import { ICategoryService } from './iCategory.service.interface';
-import { PagedGetAllResult } from 'src/global/dtos/paged-get-all-result.dto';
 
 @Injectable()
 export class CategoryService implements ICategoryService {
@@ -18,7 +18,7 @@ export class CategoryService implements ICategoryService {
     return await this._categoryRepository.findOneBy({ id: categoryId });
   }
 
-  public async getAll(filterInput: CategoryGetAllInput): Promise<PagedGetAllResult<Category>> {
+  public async getAll(filterInput: CategoryGetAllInput): Promise<PagedGetListResult<Category>> {
     const result = await this._categoryRepository.findAndCount({
       skip: filterInput.skipResultCount,
       take: filterInput.maxResultCount,

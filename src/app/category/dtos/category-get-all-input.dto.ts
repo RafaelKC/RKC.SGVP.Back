@@ -1,9 +1,9 @@
 import { Transform } from 'class-transformer';
 import { IsBoolean, IsEnum, IsOptional, IsString } from 'class-validator';
-import { PagedGetAllInput } from 'src/global/dtos/paged-get-all-input.dto';
+import { PagedGetListInput } from 'rkc.base.back';
 import { Brand } from 'src/global/enums';
 
-export class CategoryGetAllInput extends PagedGetAllInput {
+export class CategoryGetAllInput extends PagedGetListInput {
   @IsString()
   @IsOptional()
   name: string;

@@ -1,6 +1,6 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { CategoryService } from './category.service';
-import { FindOperator, QueryBuilder, Repository, SelectQueryBuilder } from 'typeorm';
+import { Repository } from 'typeorm';
 import { Category } from 'src/app/category/entities/category.entity';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { TestUtils } from '../../global/utils/test-utils';

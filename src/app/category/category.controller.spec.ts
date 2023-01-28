@@ -1,5 +1,5 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { PagedGetAllResult } from 'src/global/dtos/paged-get-all-result.dto';
+import { PagedGetListResult } from 'rkc.base.back';
 import { Brand } from 'src/global/enums';
 import { TestUtils } from 'src/global/utils/test-utils';
 import { CategoryController } from './category.controller';
@@ -89,7 +89,7 @@ describe('CategoryController', () => {
       const expectedResult = {
         totalCount: testUtils.Categories.length,
         itens: testUtils.Categories,
-      } as PagedGetAllResult<Category>;
+      } as PagedGetListResult<Category>;
 
       const getAllInput = new CategoryGetAllInput();
       getAllInput.activesOnly = true;

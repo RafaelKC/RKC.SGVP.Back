@@ -4,9 +4,9 @@ import { ICategoryService } from './iCategory.service.interface';
 import { JwtAuthGuard } from '../authentication/jwt-auth/jwt-auth.guard';
 import { Category } from './entities/category.entity';
 import { CategoryGetAllInput } from './dtos/category-get-all-input.dto';
-import { PagedGetAllResult } from 'src/global/dtos/paged-get-all-result.dto';
 import { CategoryInput } from './dtos/category-input.dto';
 import { isUUID } from 'class-validator';
+import { PagedGetListResult } from 'rkc.base.back';
 
 @Controller('category')
 export class CategoryController {
@@ -29,7 +29,7 @@ export class CategoryController {
 
   @UseGuards(JwtAuthGuard)
   @Get('getAll')
-  public async getAll(@Query() getAllInput: CategoryGetAllInput): Promise<PagedGetAllResult<Category>> {
+  public async getAll(@Query() getAllInput: CategoryGetAllInput): Promise<PagedGetListResult<Category>> {
     return await this._categoryService.getAll(getAllInput);
   }
 

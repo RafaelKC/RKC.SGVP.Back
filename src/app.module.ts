@@ -6,6 +6,7 @@ import { UsersModule } from './app/users/users.module';
 import { GlobalModule } from './global/global.module';
 import { AuthenticationModule } from './app/authentication/authentication.module';
 import { CategoryModule } from './app/category/category.module';
+import { ProductModule } from './app/products/product.module';
 
 @Module({
   imports: [
@@ -31,6 +32,7 @@ import { CategoryModule } from './app/category/category.module';
     GlobalModule,
     AuthenticationModule,
     CategoryModule,
+    ProductModule,
   ],
 })
 export class AppModule {}

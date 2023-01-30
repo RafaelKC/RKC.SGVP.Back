@@ -24,7 +24,7 @@ export class ProductController {
       res.status(200).send(product);
       return;
     }
-    res.status(404).send({ message: 'categoryId not found' });
+    res.status(404).send({ message: 'productId not found' });
   }
 
   @UseGuards(JwtAuthGuard)

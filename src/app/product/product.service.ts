@@ -19,7 +19,7 @@ export class ProductService implements IProductService {
     return await this._productRepository.findOneBy({ id: productId });
   }
 
-  public async getList(filterInput: ProductGetListInput): Promise<PagedGetListResult<Product> | null> {
+  public async getList(filterInput: ProductGetListInput): Promise<PagedGetListResult<Product>> {
     const result = await this._productRepository.findAndCount({
       skip: filterInput.skipResultCount,
       take: filterInput.maxResultCount,

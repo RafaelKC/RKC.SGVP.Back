@@ -1,4 +1,4 @@
 export class UserCredentialNotEncrypted {
-    public userId: string;
-    public notEncryptedPassword: string;
+  public userId: string;
+  public notEncryptedPassword: string;
 }

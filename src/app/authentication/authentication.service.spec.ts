@@ -2,19 +2,19 @@ import { ConfigService } from '@nestjs/config';
 import { Test, TestingModule } from '@nestjs/testing';
 import { JwtService } from '@nestjs/jwt';
 import { EncryptService } from 'src/global/encrypt/encrypt.service';
-import { UsersCredentialsService } from '../users/users-credentials/users-credentials.service';
 import { UsersService } from '../users/users.service';
 import { AuthenticationService } from './authentication.service';
 import { UserLogin } from './dtos/user-login.dto';
 import { User, UserCredential } from 'rkc.base.back';
 import { LoginResult } from './dtos/login-result.dto';
 import { CACHE_MANAGER } from '@nestjs/common';
+import { IUsersCredentialsService } from '../users/users-credentials/iUsers-credentials.service.interface';
 
 describe('AuthenticationService', () => {
   let authenticationService: AuthenticationService;
   let usersService: UsersService;
   let encryptService: EncryptService;
-  let usersCredentialsService: UsersCredentialsService;
+  let usersCredentialsService: IUsersCredentialsService;
   let configService: ConfigService;
   let jwtService: JwtService;
   let cacheService: Cache;
@@ -30,7 +30,7 @@ describe('AuthenticationService', () => {
           },
         },
         {
-          provide: UsersCredentialsService,
+          provide: IUsersCredentialsService,
           useValue: {
             getByUserId: jest.fn(),
           },
@@ -67,7 +67,7 @@ describe('AuthenticationService', () => {
     authenticationService = module.get<AuthenticationService>(AuthenticationService);
 
     usersService = module.get<UsersService>(UsersService);
-    usersCredentialsService = module.get<UsersCredentialsService>(UsersCredentialsService);
+    usersCredentialsService = module.get<IUsersCredentialsService>(IUsersCredentialsService);
     encryptService = module.get<EncryptService>(EncryptService);
     configService = module.get<ConfigService>(ConfigService);
     jwtService = module.get<JwtService>(JwtService);

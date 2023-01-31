@@ -1,5 +1,4 @@
 import { Body, Controller, Get, Param, Post, Put, Query, Res, UseGuards } from '@nestjs/common';
-import { IProductService } from './IProduct.service.interface';
 import { Response } from 'express';
 import { JwtAuthGuard } from '../authentication/jwt-auth/jwt-auth.guard';
 import { isUUID } from 'class-validator';
@@ -7,6 +6,7 @@ import Product from './entities/product.entity';
 import { PagedGetListResult } from 'rkc.base.back';
 import { ProductGetListInput } from './dtos/product-get-list-input.dto';
 import { ProductInput } from './dtos/product-input.dto';
+import { IProductService } from './IProduct.service.interface';
 
 @Controller('product')
 export class ProductController {

@@ -7,7 +7,6 @@ import { GlobalModule } from './global/global.module';
 import { AuthenticationModule } from './app/authentication/authentication.module';
 import { CategoryModule } from './app/category/category.module';
 import { ProductModule } from './app/product/product.module';
-import { ProductController } from './app/product/product.controller';
 
 @Module({
   imports: [
@@ -35,6 +34,5 @@ import { ProductController } from './app/product/product.controller';
     CategoryModule,
     ProductModule,
   ],
-  controllers: [ProductController],
 })
 export class AppModule {}

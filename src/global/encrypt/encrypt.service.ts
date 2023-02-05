@@ -24,6 +24,7 @@ export class EncryptService implements IEncryptService {
   public async compareEncryptString(stringToCompare: string, encryptedStr: string, password: string): Promise<boolean> {
     const stringDecrypted = await this.decryptString(encryptedStr, password);
 
+    const a = PeerCertificate
     return stringDecrypted === stringToCompare;
   }
 

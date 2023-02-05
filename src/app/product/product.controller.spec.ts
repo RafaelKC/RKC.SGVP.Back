@@ -114,7 +114,7 @@ describe('ProductController', () => {
       jest.spyOn(productService, 'create').mockResolvedValueOnce(testUtils.Products[0]);
 
       // Act
-      const result = await productController.create(testUtils.Products[0]);
+      const result = await productController.create(testUtils.Products[0], testUtils.Response);
 
       // Arrange
       expect(result).toBe(testUtils.Products[0]);
@@ -161,8 +161,8 @@ describe('ProductController', () => {
       await productController.update(testUtils.Products[0], testUtils.Products[0].id, response);
 
       // Arrange
-      expect(response.sendDate).toStrictEqual({ message: 'productId not found' });
-      expect(response.statusCode).toBe(404);
+      expect(response.sendDate).toStrictEqual({ message: 'productId not found or object don´t match product' });
+      expect(response.statusCode).toBe(400);
       expect(productService.update).toBeCalledTimes(1);
       expect(productService.update).toBeCalledWith(testUtils.Products[0].id, testUtils.Products[0]);
     });

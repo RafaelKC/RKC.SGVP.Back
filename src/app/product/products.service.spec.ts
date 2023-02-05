@@ -6,6 +6,7 @@ import Product from './entities/product.entity';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import exp from 'constants';
 import { ExpressAdapter } from '@nestjs/platform-express';
+import ProductOutput from './dtos/product-output';
 
 describe('ProductService', () => {
   const testUtils = new TestUtils();
@@ -48,7 +49,7 @@ describe('ProductService', () => {
       const result = await productService.getById(testUtils.Products[0].id);
 
       // Arrange
-      expect(result).toBe(testUtils.Products[0]);
+      expect(result).toStrictEqual(new ProductOutput(testUtils.Products[0]));
       expect(productRepository.findOneBy).toBeCalledTimes(1);
       expect(productRepository.findOneBy).toBeCalledWith({ id: testUtils.Products[0].id });
     });
@@ -64,7 +65,7 @@ describe('ProductService', () => {
       const result = await productService.create(testUtils.Products[0]);
 
       // Assert
-      expect(result).toStrictEqual(testUtils.Products[0]);
+      expect(result).toStrictEqual(new ProductOutput(testUtils.Products[0]));
 
       expect(productRepository.save).toBeCalledTimes(1);
       expect(productRepository.save).toBeCalledWith(new Product(testUtils.Products[0]));

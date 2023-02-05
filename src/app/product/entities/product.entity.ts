@@ -9,7 +9,7 @@ export default class Product extends BaseEntity implements IProduct {
   public name: string;
   @Column({ nullable: false })
   public brandCode: string;
-  @Column({ enum: Brand, nullable: false })
+  @Column({ enum: Unit, nullable: false })
   public unit: Unit;
   @Column({ nullable: false, name: 'size' })
   private _size: string;
@@ -19,9 +19,9 @@ export default class Product extends BaseEntity implements IProduct {
   public gender: Gender;
   @Column({ enum: Brand, nullable: false })
   public brand: Brand;
-  @Column({ nullable: false, name: 'is_active' })
+  @Column({ nullable: true, name: 'is_active' })
   public isActive: boolean;
-  @Column({ nullable: false })
+  @Column({ nullable: true })
   public image: string;
 
   get size(): string {
@@ -32,7 +32,7 @@ export default class Product extends BaseEntity implements IProduct {
     if (this.unit === Unit.Unit) {
       this._size = String(size);
     } else {
-      if (typeof size === 'number') {
+      if (!isNaN(Number(size))) {
         this._size = String(size);
       } else {
         throw new TypeError('When Product.unit is not Unit.Unit, Product.size must be a number');
@@ -42,14 +42,18 @@ export default class Product extends BaseEntity implements IProduct {
 
   constructor(product?: Partial<IProduct>) {
     super();
-    if (product?.brand) this.brand = product.brand;
+    if (typeof product?.gender === 'number') this.gender = product.gender;
+    if (typeof product?.brand === 'number') this.brand = product.brand;
+    if (typeof product?.unit === 'number') this.unit = product.unit;
     if (product?.brandCode) this.brandCode = product?.brandCode;
     if (product?.categoryId) this.categoryId = product.categoryId;
-    if (product?.gender) this.gender = product.gender;
     if (product?.image) this.image = product.image;
-    if (product?.isActive) this.isActive = product.isActive;
     if (product?.name) this.name = product.name;
-    if (product?.unit) this.unit = product.unit;
     if (product?.size) this.size = product.size;
+    if (product?.isActive) {
+      this.isActive = product.isActive;
+    } else {
+      this.isActive = true;
+    }
   }
 }

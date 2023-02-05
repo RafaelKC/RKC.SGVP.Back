@@ -7,6 +7,7 @@ import { GlobalModule } from './global/global.module';
 import { AuthenticationModule } from './app/authentication/authentication.module';
 import { CategoryModule } from './app/category/category.module';
 import { ProductModule } from './app/product/product.module';
+import { LoggerOptions } from 'typeorm';
 
 @Module({
   imports: [
@@ -23,8 +24,8 @@ import { ProductModule } from './app/product/product.module';
         password: configService.get('DB_PASSWORD'),
         database: configService.get('DB_DATABASE'),
         entities: [__dirname + '/**/*.entity{.ts,.js}', User, UserCredential],
-        synchronize: configService.get<boolean>('PROD'),
-        logging: configService.get<boolean>('DB_LOGGING_LEVEL'),
+        synchronize: !configService.get<boolean>('PROD'),
+        logging: configService.get<LoggerOptions>('DB_LOGGING_LEVEL'),
       }),
       inject: [ConfigService],
     }),

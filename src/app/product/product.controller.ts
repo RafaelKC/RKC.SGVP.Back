@@ -1,12 +1,12 @@
-import { Body, Controller, Get, Param, Post, Put, Query, Res, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post, Put, Query, Res, UseGuards, ValidationPipe } from '@nestjs/common';
 import { Response } from 'express';
 import { JwtAuthGuard } from '../authentication/jwt-auth/jwt-auth.guard';
 import { isUUID } from 'class-validator';
-import Product from './entities/product.entity';
 import { PagedGetListResult } from 'rkc.base.back';
 import { ProductGetListInput } from './dtos/product-get-list-input.dto';
 import { ProductInput } from './dtos/product-input.dto';
 import { IProductService } from './IProduct.service.interface';
+import ProductOutput from './dtos/product-output';
 
 @Controller('product')
 export class ProductController {
@@ -14,7 +14,7 @@ export class ProductController {
 
   @UseGuards(JwtAuthGuard)
   @Get(':productId')
-  public async getById(@Param('productId') productId: string, @Res() res: Response): Promise<Product | void> {
+  public async getById(@Param('productId') productId: string, @Res() res: Response): Promise<ProductOutput | void> {
     if (!isUUID(productId)) {
       res.status(400).send({ message: 'productId must be a valid UUID' });
       return;
@@ -28,15 +28,19 @@ export class ProductController {
   }
 
   @UseGuards(JwtAuthGuard)
-  @Get('getAll')
-  public async getList(@Query() getListInput: ProductGetListInput): Promise<PagedGetListResult<Product>> {
+  @Get('getList')
+  public async getList(@Query() getListInput: ProductGetListInput): Promise<PagedGetListResult<ProductOutput>> {
     return this._productService.getList(getListInput);
   }
 
   @UseGuards(JwtAuthGuard)
   @Post()
-  public async create(@Body() product: ProductInput): Promise<Product | null> {
-    return await this._productService.create(product);
+  public async create(@Body() product: ProductInput, @Res() res: Response): Promise<ProductOutput | void> {
+    const result = await this._productService.create(product);
+    if (result !== null) {
+      return result;
+    }
+    res.status(400).send({ message: 'object don´t match Product' });
   }
 
   @UseGuards(JwtAuthGuard)
@@ -55,7 +59,7 @@ export class ProductController {
     if (result) {
       res.status(200).send();
     } else {
-      res.status(404).send({ message: 'productId not found' });
+      res.status(400).send({ message: 'productId not found or object don´t match product' });
     }
   }
 }

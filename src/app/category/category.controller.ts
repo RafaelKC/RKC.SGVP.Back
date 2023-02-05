@@ -35,8 +35,12 @@ export class CategoryController {
 
   @UseGuards(JwtAuthGuard)
   @Post()
-  public async create(@Body() category: CategoryInput): Promise<Category | null> {
-    return await this._categoryService.create(category);
+  public async create(@Body() category: CategoryInput, @Res() res: Response): Promise<Category | void> {
+    const result = await this._categoryService.create(category);
+    if (result !== null) {
+      return result;
+    }
+    res.status(400).send({ message: 'object don´t match Category' });
   }
 
   @UseGuards(JwtAuthGuard)

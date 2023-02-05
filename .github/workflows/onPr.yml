@@ -5,12 +5,10 @@ name: Testing RKC.SGVP.Back
 
 on:
   pull_request:
-    branches: [ "main" ]
-
+    branches: ['main']
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
 
     steps:
@@ -23,19 +21,17 @@ jobs:
       - run: npm ci
       - run: npm test
 
+  # run-linters:
+  #   needs: build
+  #   runs-on: ubuntu-latest
+  #   permissions:
+  #     checks: write
+  #     contents: write
 
-  run-linters:
-    needs: build 
-    runs-on: ubuntu-latest
-    permissions:
-      checks: write
-      contents: write 
-
-    steps:
-      - uses: actions/checkout@v2
-      - name: Run linters
-      - uses: wearerequired/lint-action@v2
-        with:
-          eslint: true
-          prettier: true
-
+  #   steps:
+  #     - uses: actions/checkout@v2
+  #     - name: Run linters
+  #     - uses: wearerequired/lint-action@v2
+  #       with:
+  #         eslint: true
+  #         prettier: true

@@ -14,8 +14,8 @@ describe('EncryptService', () => {
           provide: ConfigService,
           useValue: {
             get: jest.fn(),
-          }
-        }
+          },
+        },
       ],
     }).compile();
 

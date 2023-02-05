@@ -1,5 +1,5 @@
-import { Transform, Type } from 'class-transformer';
-import { IsString, IsOptional, IsEnum, IsBoolean, IsArray } from 'class-validator';
+import { Transform } from 'class-transformer';
+import { IsString, IsOptional, IsEnum, IsBoolean } from 'class-validator';
 import { PagedGetListInput } from 'rkc.base.back';
 import { Brand, Gender } from 'src/global/enums';
 

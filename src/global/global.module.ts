@@ -5,6 +5,6 @@ import { EncryptService } from './encrypt/encrypt.service';
 @Module({
   providers: [EncryptService],
   exports: [EncryptService],
-  imports: [ConfigModule]
+  imports: [ConfigModule],
 })
 export class GlobalModule {}

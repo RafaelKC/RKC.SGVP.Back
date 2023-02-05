@@ -1,11 +1,13 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { Response } from 'express';
 import { User } from 'rkc.base.back';
 import { AuthenticationController } from './authentication.controller';
 import { AuthenticationService } from './authentication.service';
 import { LoginResult } from './dtos/login-result.dto';
+import { TestUtils } from '../../global/utils/test-utils';
 
 describe('AuthenticationController', () => {
+  const testUtils = new TestUtils();
+
   let authenticationController: AuthenticationController;
   let authenticationService: AuthenticationService;
 
@@ -83,13 +85,7 @@ describe('AuthenticationController', () => {
       jest.spyOn(authenticationService, 'logout').mockResolvedValue(true);
 
       // Act
-      var response = await authenticationController.logout(request, {
-        status(code) {
-          return {
-            redirect(url) {},
-          } as Response;
-        },
-      } as Response);
+      const response = await authenticationController.logout(request, testUtils.Response);
 
       // Arrange
       expect(response).not.toBeDefined();

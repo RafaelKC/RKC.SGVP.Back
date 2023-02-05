@@ -8,7 +8,6 @@ import ProductOutput from './dtos/product-output';
 import { IProduct } from './entities/iProduct.interface';
 import Product from './entities/product.entity';
 import { IProductService } from './IProduct.service.interface';
-import { Category } from '../category/entities/category.entity';
 
 @Injectable()
 export class ProductService implements IProductService {

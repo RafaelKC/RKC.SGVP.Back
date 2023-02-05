@@ -4,8 +4,6 @@ import { ProductService } from './product.service';
 import { Repository } from 'typeorm';
 import Product from './entities/product.entity';
 import { getRepositoryToken } from '@nestjs/typeorm';
-import exp from 'constants';
-import { ExpressAdapter } from '@nestjs/platform-express';
 import ProductOutput from './dtos/product-output';
 
 describe('ProductService', () => {

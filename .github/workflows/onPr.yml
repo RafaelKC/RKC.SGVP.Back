@@ -22,12 +22,16 @@ jobs:
       - run: npm test
 
   run-linters:
-    name: Run linters
+    needs: build
     runs-on: ubuntu-latest
 
     steps:
-      needs: build
-
       - name: Run linters
+      - uses: actions/checkout@v3
+      - name: Test with Node.js 18.x
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18.x
+          cache: 'npm'
       - run: npm run lintPrettier
-      - run: npm run lintEslint
+      - run: npm run lintPrettier

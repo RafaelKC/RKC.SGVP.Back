@@ -114,7 +114,7 @@ describe('CategoryController', () => {
       jest.spyOn(categoryService, 'create').mockResolvedValueOnce(testUtils.Categories[0]);
 
       // Act
-      const result = await categoryController.create(testUtils.Categories[0]);
+      const result = await categoryController.create(testUtils.Categories[0], testUtils.Response);
 
       // Arrange
       expect(result).toBe(testUtils.Categories[0]);

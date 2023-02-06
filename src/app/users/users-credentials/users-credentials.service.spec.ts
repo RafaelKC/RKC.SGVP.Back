@@ -154,11 +154,6 @@ describe('UsersCredentialsService', () => {
 
     it('createAndEncrypt, with problems', async () => {
       // Arrange
-      const userCredentialToBeCreated = {
-        encryptedPassword: '123psw',
-        userId: 'ea09da88-99f6-4bc0-b28b-297a6502f02a',
-      } as UserCredential;
-
       const userCredentialNotEncrypted = {
         notEncryptedPassword: 'psw123',
         userId: 'ea09da88-99f6-4bc0-b28b-297a6502f02a',

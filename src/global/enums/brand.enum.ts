@@ -1,4 +1,4 @@
 export enum Brand {
-    Natura = 0,
-    Demillus = 1,
+  Natura = 0,
+  Demillus = 1,
 }

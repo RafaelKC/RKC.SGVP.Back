@@ -19,7 +19,7 @@ describe('UsersService', () => {
             save: jest.fn(),
             findOne: jest.fn(),
           },
-        }
+        },
       ],
     }).compile();
 
@@ -41,21 +41,21 @@ describe('UsersService', () => {
         username: 'jonGates',
         email: 'jonGates@mail.com',
         isActive: true,
-      } as User
+      } as User;
 
-      jest.spyOn(usersRepository, 'create').mockReturnValueOnce(userToBeCreated)
-      jest.spyOn(usersRepository, 'save').mockResolvedValueOnce(userToBeCreated)
+      jest.spyOn(usersRepository, 'create').mockReturnValueOnce(userToBeCreated);
+      jest.spyOn(usersRepository, 'save').mockResolvedValueOnce(userToBeCreated);
 
       // Act
-      const result = await usersService.create(userToBeCreated);  
+      const result = await usersService.create(userToBeCreated);
 
       // Assert
       expect(result).toBeTruthy();
       expect(usersRepository.create).toBeCalledTimes(1);
       expect(usersRepository.create).toBeCalledWith(userToBeCreated);
       expect(usersRepository.save).toBeCalledTimes(1);
-    })
-  })
+    });
+  });
 
   describe('getByEmailOrUsername', () => {
     it('should  find a user by email or username ', async () => {
@@ -66,19 +66,18 @@ describe('UsersService', () => {
         username: 'jonGates',
         email: 'jonGates@mail.com',
         isActive: true,
-        id: 'ea09da88-99f6-4bc0-b28b-297a6502f02a'
-      } as User
+        id: 'ea09da88-99f6-4bc0-b28b-297a6502f02a',
+      } as User;
 
-      jest.spyOn(usersRepository, 'findOne').mockResolvedValueOnce(userToBeFound)
+      jest.spyOn(usersRepository, 'findOne').mockResolvedValueOnce(userToBeFound);
 
       // Act
-      const result = await usersService.getByEmailOrUsername('jonGate');  
+      const result = await usersService.getByEmailOrUsername('jonGate');
 
       // Assert
       expect(result).toBe(userToBeFound);
-      expect(usersRepository.findOne).toBeCalledWith({"where": [{"username": "jonGate" }, { "email": "jonGate"}]});
+      expect(usersRepository.findOne).toBeCalledWith({ where: [{ username: 'jonGate' }, { email: 'jonGate' }] });
       expect(usersRepository.findOne).toBeCalledTimes(1);
-    })
-  })
-
+    });
+  });
 });

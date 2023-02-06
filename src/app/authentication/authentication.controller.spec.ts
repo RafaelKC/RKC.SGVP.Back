@@ -4,6 +4,8 @@ import { AuthenticationController } from './authentication.controller';
 import { AuthenticationService } from './authentication.service';
 import { LoginResult } from './dtos/login-result.dto';
 import { TestUtils } from '../../global/utils/test-utils';
+import { Response } from 'express';
+import { getMockRes } from '@jest-mock/express';
 
 describe('AuthenticationController', () => {
   const testUtils = new TestUtils();
@@ -83,9 +85,10 @@ describe('AuthenticationController', () => {
       };
 
       jest.spyOn(authenticationService, 'logout').mockResolvedValue(true);
+      const { res } = getMockRes({});
 
       // Act
-      const response = await authenticationController.logout(request, testUtils.Response);
+      const response = await authenticationController.logout(request, res);
 
       // Arrange
       expect(response).not.toBeDefined();

@@ -21,11 +21,10 @@ export class EncryptService implements IEncryptService {
     return decryptedText.toString();
   }
 
-  public async compareEncryptString(stringToCompare: string, encryptedStr: string, password: string): Promise<boolean> {
+  public async compareEncryptString(stringToCompare: string, encryptedStr: string, password: string) {
     const stringDecrypted = await this.decryptString(encryptedStr, password);
 
-    const a = PeerCertificate
-    return stringDecrypted === stringToCompare;
+    return stringDecrypted === stringToCompare
   }
 
   public async encryptString(strToEncrypt: string, password: string): Promise<string> {

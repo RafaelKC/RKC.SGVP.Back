@@ -109,7 +109,7 @@ describe('ProductController', () => {
   });
 
   describe('testing create', () => {
-    it('getList', async () => {
+    it('create', async () => {
       // Assert
       jest.spyOn(productService, 'create').mockResolvedValueOnce(testUtils.Products[0]);
 

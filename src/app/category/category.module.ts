@@ -13,6 +13,7 @@ import { CategoryController } from './category.controller';
       useClass: CategoryService,
     },
   ],
+  exports: [ICategoryService],
   controllers: [CategoryController],
 })
 export class CategoryModule {}

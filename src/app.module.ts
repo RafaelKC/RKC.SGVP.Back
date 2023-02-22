@@ -1,3 +1,4 @@
+import { ProductViewModule } from './app/product-view/product-view.module';
 import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
@@ -34,6 +35,7 @@ import { LoggerOptions } from 'typeorm';
     AuthenticationModule,
     CategoryModule,
     ProductModule,
+    ProductViewModule,
   ],
 })
 export class AppModule {}

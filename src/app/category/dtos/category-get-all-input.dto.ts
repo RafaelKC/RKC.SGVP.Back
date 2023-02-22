@@ -17,4 +17,13 @@ export class CategoryGetAllInput extends PagedGetListInput {
   @Transform((param) => param.value == 1 || param.value === 'true')
   @IsOptional()
   activesOnly: boolean;
+
+  @IsOptional()
+  @Transform((param) => {
+    if (typeof param.value === 'string') {
+      return [param.value];
+    }
+    return param.value;
+  })
+  categoriesIds: Array<string>;
 }

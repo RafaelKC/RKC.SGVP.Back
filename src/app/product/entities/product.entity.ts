@@ -13,7 +13,7 @@ export default class Product extends BaseEntity implements IProduct {
   public unit: Unit;
   @Column({ nullable: false, name: 'size' })
   private _size: string;
-  @Column({ nullable: false, name: 'category_id' })
+  @Column({ nullable: false, name: 'category_id', type: 'uuid' })
   public categoryId: string;
   @Column({ enum: Gender, nullable: false })
   public gender: Gender;

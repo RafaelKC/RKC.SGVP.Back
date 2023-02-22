@@ -3,6 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { PagedGetListResult } from 'rkc.base.back';
 import { Unit } from 'src/global/enums';
 import { Raw, Repository } from 'typeorm';
+import { ICategoryService } from '../category/iCategory.service.interface';
 import { ProductGetListInput } from './dtos/product-get-list-input.dto';
 import ProductOutput from './dtos/product-output';
 import { IProduct } from './entities/iProduct.interface';
@@ -14,6 +15,7 @@ export class ProductService implements IProductService {
   constructor(
     @InjectRepository(Product)
     private readonly _productRepository: Repository<Product>,
+    private readonly _categoryService: ICategoryService,
   ) {}
 
   public async getById(productId: string): Promise<ProductOutput | null> {
@@ -51,17 +53,16 @@ export class ProductService implements IProductService {
   }
 
   public async create(product: IProduct): Promise<ProductOutput | null> {
-    if (!this.validateProductInput(product)) {
-      return null;
-    }
+    if (!this.validateProductInput(product)) return null;
+    if (!(await this.validateCategory(product.categoryId))) return null;
+
     const productResult = await this._productRepository.save(this._productRepository.create(new Product(product)));
     return new ProductOutput(productResult);
   }
 
   public async update(productId: string, productToUpdate: IProduct): Promise<boolean> {
-    if (!this.validateProductInput(productToUpdate)) {
-      return false;
-    }
+    if (!this.validateProductInput(productToUpdate)) return false;
+    if (!(await this.validateCategory(productToUpdate.categoryId))) return false;
 
     const product = await this._productRepository.findOneBy({ id: productId });
     if (!product) return false;
@@ -82,5 +83,11 @@ export class ProductService implements IProductService {
       !product.size ||
       (product.unit != Unit.Unit && isNaN(Number(product.size)))
     );
+  }
+
+  private async validateCategory(categoryId: string): Promise<boolean> {
+    const category = await this._categoryService.getById(categoryId);
+    if (category?.isActive) return true;
+    return false;
   }
 }

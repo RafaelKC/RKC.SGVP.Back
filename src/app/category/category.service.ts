@@ -28,6 +28,11 @@ export class CategoryService implements ICategoryService {
         name: Boolean(filterInput.name)
           ? Raw((name) => `LOWER(${name}) LIKE '%${filterInput.name.toLowerCase()}%'`)
           : undefined,
+        id: Boolean(filterInput.categoriesIds)
+          ? Raw((id) => `${id} IN (:...categoriesIds)`, {
+              categoriesIds: filterInput.categoriesIds,
+            })
+          : undefined,
       },
     });
 

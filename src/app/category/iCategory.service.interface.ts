@@ -8,4 +8,5 @@ export abstract class ICategoryService {
   public abstract getAll(filterInput: CategoryGetAllInput): Promise<PagedGetListResult<Category>>;
   public abstract create(category: ICategory): Promise<Category | null>;
   public abstract update(categoryId: string, category: ICategory): Promise<boolean>;
+  public abstract delete(categoryId: string): Promise<boolean>;
 }

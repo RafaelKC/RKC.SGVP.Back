@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, Post, Put, Query, Res, UseGuards } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Post, Put, Query, Res, UseGuards } from '@nestjs/common';
 import { Response } from 'express';
 import { ICategoryService } from './iCategory.service.interface';
 import { JwtAuthGuard } from '../authentication/jwt-auth/jwt-auth.guard';
@@ -62,5 +62,19 @@ export class CategoryController {
     } else {
       res.status(404).send({ message: 'categoryId not found' });
     }
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Delete(':categoryId')
+  public async delete(@Param('categoryId') categoryId: string, @Res() res: Response): Promise<void> {
+    if (!isUUID(categoryId)) {
+      res.status(400).send({ message: 'categoryId must be a valid UUID' });
+      return;
+    }
+
+    const result = await this._categoryService.delete(categoryId);
+
+    if (result) res.status(200).send();
+    else res.status(404).send({ message: 'categoryId not found or category in use' });
   }
 }

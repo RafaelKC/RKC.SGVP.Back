@@ -6,21 +6,21 @@ import { Brand, Gender } from 'src/global/enums';
 export class ProductGetListInput extends PagedGetListInput {
   @IsString()
   @IsOptional()
-  name: string;
+  name?: string;
 
   @IsString()
   @IsOptional()
-  brandCode: string;
+  brandCode?: string;
 
   @IsEnum(Brand)
   @Transform((param) => Brand[param.value])
   @IsOptional()
-  brand: Brand;
+  brand?: Brand;
 
   @IsEnum(Gender)
   @Transform((param) => Gender[param.value])
   @IsOptional()
-  gender: Gender;
+  gender?: Gender;
 
   @IsOptional()
   @Transform((param) => {
@@ -29,7 +29,7 @@ export class ProductGetListInput extends PagedGetListInput {
     }
     return param.value;
   })
-  categoriesIds: Array<string>;
+  categoriesIds?: Array<string>;
 
   @IsBoolean()
   @Transform((param) => param.value == 1 || param.value === 'true')

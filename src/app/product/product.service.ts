@@ -33,10 +33,10 @@ export class ProductService implements IProductService {
         gender: filterInput.gender,
         isActive: filterInput.activesOnly ?? undefined,
         name: Boolean(filterInput.name)
-          ? Raw((name) => `LOWER(${name}) LIKE '%${filterInput.name.toLowerCase()}%'`)
+          ? Raw((name) => `LOWER(${name}) LIKE '%${filterInput.name?.toLowerCase()}%'`)
           : undefined,
         brandCode: Boolean(filterInput.brandCode)
-          ? Raw((brandCode) => `LOWER(${brandCode}) LIKE '%${filterInput.brandCode.toLowerCase()}%'`)
+          ? Raw((brandCode) => `LOWER(${brandCode}) LIKE '%${filterInput.brandCode?.toLowerCase()}%'`)
           : undefined,
         categoryId: Boolean(filterInput.categoriesIds)
           ? Raw((categoryId) => `LOWER(${categoryId}) IN (:...categoriesIds)`, {

@@ -24,6 +24,7 @@ describe('CategoryController', () => {
             getAll: jest.fn(),
             create: jest.fn(),
             update: jest.fn(),
+            delete: jest.fn(),
           },
         },
       ],
@@ -109,7 +110,7 @@ describe('CategoryController', () => {
   });
 
   describe('testing create', () => {
-    it('getAll', async () => {
+    it('create', async () => {
       // Assert
       jest.spyOn(categoryService, 'create').mockResolvedValueOnce(testUtils.Categories[0]);
 
@@ -165,6 +166,51 @@ describe('CategoryController', () => {
       expect(response.statusCode).toBe(404);
       expect(categoryService.update).toBeCalledTimes(1);
       expect(categoryService.update).toBeCalledWith(testUtils.Categories[0].id, testUtils.Categories[0]);
+    });
+  });
+
+  describe('testing delete', () => {
+    it('delete', async () => {
+      // Assert
+      jest.spyOn(categoryService, 'delete').mockResolvedValueOnce(true);
+      const response = testUtils.Response;
+
+      // Act
+      await categoryController.delete(testUtils.Categories[0].id, response);
+
+      // Arrange
+      expect(response.sendDate).toBeUndefined();
+      expect(response.statusCode).toBe(200);
+      expect(categoryService.delete).toBeCalledTimes(1);
+      expect(categoryService.delete).toBeCalledWith(testUtils.Categories[0].id);
+    });
+
+    it('delete id not found', async () => {
+      // Assert
+      jest.spyOn(categoryService, 'delete').mockResolvedValueOnce(false);
+      const response = testUtils.Response;
+
+      // Act
+      await categoryController.delete(testUtils.Categories[0].id, response);
+
+      // Arrange
+      expect(response.sendDate).toStrictEqual({ message: 'categoryId not found or category in use' });
+      expect(response.statusCode).toBe(404);
+      expect(categoryService.delete).toBeCalledTimes(1);
+      expect(categoryService.delete).toBeCalledWith(testUtils.Categories[0].id);
+    });
+
+    it('delete with invalid id', async () => {
+      // Assert
+      const response = testUtils.Response;
+
+      // Act
+      await categoryController.delete(testUtils.Strings[0], response);
+
+      // Arrange
+      expect(response.sendDate).toStrictEqual({ message: 'categoryId must be a valid UUID' });
+      expect(response.statusCode).toBe(400);
+      expect(categoryService.delete).not.toBeCalled();
     });
   });
 });

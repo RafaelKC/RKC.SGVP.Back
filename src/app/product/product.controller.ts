@@ -38,9 +38,11 @@ export class ProductController {
   public async create(@Body() product: ProductInput, @Res() res: Response): Promise<ProductOutput | void> {
     const result = await this._productService.create(product);
     if (result !== null) {
+      res.status(200).send();
       return result;
     }
     res.status(400).send({ message: 'object don´t match Product' });
+    return;
   }
 
   @UseGuards(JwtAuthGuard)

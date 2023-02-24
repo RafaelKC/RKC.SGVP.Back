@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { PagedGetListResult } from 'rkc.base.back';
 import { Raw, Repository } from 'typeorm';
-import { IProductService } from '../product/IProduct.service.interface';
+import Product from '../product/entities/product.entity';
 import { CategoryGetAllInput } from './dtos/category-get-all-input.dto';
 import { Category } from './entities/category.entity';
 import { ICategory } from './entities/iCategory.interface';
@@ -13,7 +13,8 @@ export class CategoryService implements ICategoryService {
   constructor(
     @InjectRepository(Category)
     private readonly _categoryRepository: Repository<Category>,
-    private readonly _productService: IProductService,
+    @InjectRepository(Product)
+    private readonly _productRepository: Repository<Product>,
   ) {}
 
   public async getById(categoryId: string): Promise<Category | null> {
@@ -69,14 +70,7 @@ export class CategoryService implements ICategoryService {
     const category = await this.getById(categoryId);
     if (category == null) return false;
 
-    const productWithCategoryIdCount = (
-      await this._productService.getList({
-        categoriesIds: [categoryId],
-        activesOnly: false,
-        maxResultCount: 1,
-        skipResultCount: 0,
-      })
-    ).totalCount;
+    const productWithCategoryIdCount = await this._productRepository.countBy({ categoryId: categoryId });
     if (productWithCategoryIdCount > 0) return false;
 
     await this._categoryRepository.remove(category);

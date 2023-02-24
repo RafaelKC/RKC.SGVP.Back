@@ -1,13 +1,13 @@
-import { forwardRef, Module } from '@nestjs/common';
+import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Category } from './entities/category.entity';
 import { CategoryService } from './category.service';
 import { ICategoryService } from './iCategory.service.interface';
 import { CategoryController } from './category.controller';
-import { ProductModule } from '../product/product.module';
+import Product from '../product/entities/product.entity';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Category]), forwardRef(() => ProductModule)],
+  imports: [TypeOrmModule.forFeature([Category, Product])],
   providers: [
     {
       provide: ICategoryService,

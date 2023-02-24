@@ -75,6 +75,6 @@ export class CategoryController {
     const result = await this._categoryService.delete(categoryId);
 
     if (result) res.status(200).send();
-    else res.status(404).send({ message: 'categoryId not found or category in use' });
+    else res.status(400).send({ message: 'categoryId not found or category in use' });
   }
 }

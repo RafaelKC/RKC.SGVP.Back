@@ -7,7 +7,7 @@ import { ProductService } from './product.service';
 import { CategoryModule } from '../category/category.module';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Product]), forwardRef(() => CategoryModule)],
+  imports: [TypeOrmModule.forFeature([Product]), CategoryModule],
   providers: [
     {
       provide: IProductService,

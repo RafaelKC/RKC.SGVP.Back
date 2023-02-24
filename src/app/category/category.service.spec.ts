@@ -4,17 +4,17 @@ import { Repository } from 'typeorm';
 import { Category } from 'src/app/category/entities/category.entity';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { TestUtils } from '../../global/utils/test-utils';
-import { IProductService } from '../product/IProduct.service.interface';
 import { PagedGetListResult } from 'rkc.base.back';
 import ProductOutput from '../product/dtos/product-output';
 import { ProductGetListInput } from '../product/dtos/product-get-list-input.dto';
+import Product from '../product/entities/product.entity';
 
 describe('CategoryService', () => {
   const testUtils = new TestUtils();
 
   let categoryService: CategoryService;
-  let productService: IProductService;
   let categoryRepository: Repository<Category>;
+  let productRepository: Repository<Product>;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
@@ -32,23 +32,22 @@ describe('CategoryService', () => {
           },
         },
         {
-          provide: IProductService,
+          provide: getRepositoryToken(Product),
           useValue: {
-            getList: jest.fn(),
+            countBy: jest.fn(),
           },
         },
       ],
     }).compile();
 
     categoryService = module.get<CategoryService>(CategoryService);
-    productService = module.get<IProductService>(IProductService);
     categoryRepository = module.get<Repository<Category>>(getRepositoryToken(Category));
+    productRepository = module.get<Repository<Product>>(getRepositoryToken(Product));
   });
 
   it('should be defined', () => {
     expect(categoryService).toBeDefined();
     expect(categoryRepository).toBeDefined();
-    expect(productService).toBeDefined();
   });
 
   describe('Testing getById', () => {
@@ -143,10 +142,7 @@ describe('CategoryService', () => {
 
       jest.spyOn(categoryRepository, 'findOneBy').mockResolvedValueOnce(testUtils.Categories[0]);
       jest.spyOn(categoryRepository, 'remove').mockResolvedValueOnce(testUtils.Categories[0]);
-      jest.spyOn(productService, 'getList').mockResolvedValueOnce({
-        itens: [],
-        totalCount: 0,
-      } as PagedGetListResult<ProductOutput>);
+      jest.spyOn(productRepository, 'countBy').mockResolvedValueOnce(0);
 
       // Act
       const result = await categoryService.delete(testUtils.Categories[0].id);
@@ -160,13 +156,8 @@ describe('CategoryService', () => {
       expect(categoryRepository.remove).toBeCalledTimes(1);
       expect(categoryRepository.remove).toBeCalledWith(testUtils.Categories[0]);
 
-      expect(productService.getList).toBeCalledTimes(1);
-      expect(productService.getList).toBeCalledWith({
-        activesOnly: false,
-        categoriesIds: [testUtils.Categories[0].id],
-        maxResultCount: 1,
-        skipResultCount: 0,
-      } as ProductGetListInput);
+      expect(productRepository.countBy).toBeCalledTimes(1);
+      expect(productRepository.countBy).toBeCalledWith({ categoryId: testUtils.Categories[0].id });
     });
   });
 });

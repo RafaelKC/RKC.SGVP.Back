@@ -195,7 +195,7 @@ describe('CategoryController', () => {
 
       // Arrange
       expect(response.sendDate).toStrictEqual({ message: 'categoryId not found or category in use' });
-      expect(response.statusCode).toBe(404);
+      expect(response.statusCode).toBe(400);
       expect(categoryService.delete).toBeCalledTimes(1);
       expect(categoryService.delete).toBeCalledWith(testUtils.Categories[0].id);
     });

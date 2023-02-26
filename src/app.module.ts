@@ -10,6 +10,7 @@ import { CategoryModule } from './app/category/category.module';
 import { ProductModule } from './app/product/product.module';
 import { LoggerOptions } from 'typeorm';
 import { BuyModule } from './app/buy/buy.module';
+import { InventoryModule } from './app/inventory/inventory.module';
 
 @Module({
   imports: [
@@ -38,6 +39,7 @@ import { BuyModule } from './app/buy/buy.module';
     ProductModule,
     ProductViewModule,
     BuyModule,
+    InventoryModule,
   ],
 })
 export class AppModule {}

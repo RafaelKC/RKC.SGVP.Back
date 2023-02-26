@@ -9,6 +9,7 @@ import { AuthenticationModule } from './app/authentication/authentication.module
 import { CategoryModule } from './app/category/category.module';
 import { ProductModule } from './app/product/product.module';
 import { LoggerOptions } from 'typeorm';
+import { InventoryModule } from './app/inventory/inventory.module';
 
 @Module({
   imports: [
@@ -36,6 +37,7 @@ import { LoggerOptions } from 'typeorm';
     CategoryModule,
     ProductModule,
     ProductViewModule,
+    InventoryModule,
   ],
 })
 export class AppModule {}

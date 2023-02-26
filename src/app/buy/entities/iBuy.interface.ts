@@ -1,3 +1,4 @@
+import Inventory from 'src/app/inventory/entities/inventory.entity';
 import { Brand } from 'src/global/enums';
 
 export abstract class IBuy {
@@ -6,7 +7,7 @@ export abstract class IBuy {
   public totalValue: number;
   public buyDate: Date;
   public brand: Brand;
-  // public items: Array<Inventory>;
+  public items: Array<Inventory>;
   public createdDate: Date;
   public updatedDate: Date;
 }

@@ -1,14 +1,6 @@
 import { BaseEntity } from 'rkc.base.back';
 import { IInventory } from './iInventory.interface';
-import {
-  BeforeSoftRemove,
-  Column,
-  CreateDateColumn,
-  DeleteDateColumn,
-  Entity,
-  ManyToOne,
-  UpdateDateColumn,
-} from 'typeorm';
+import { Column, Entity, ManyToOne } from 'typeorm';
 import Buy from '../../buy/entities/buy.entity';
 
 @Entity('inventory')
@@ -27,19 +19,7 @@ export default class Inventory extends BaseEntity implements IInventory {
   public inInventory: boolean;
   @ManyToOne(() => Buy, (buy) => buy.items)
   public buy: Buy;
-  @CreateDateColumn()
-  public createDate: Date;
-  @UpdateDateColumn()
-  public updateDate: Date;
-  @DeleteDateColumn()
-  public deleteDate: Date;
-  @Column({ nullable: false, name: 'is_deleted', default: false })
-  public isDeleted: boolean;
 
-  @BeforeSoftRemove()
-  public setDeleted(): void {
-    this.isDeleted = false;
-  }
   constructor(inventory?: Partial<IInventory>) {
     super();
     if (inventory?.productId) this.productId = inventory.productId;

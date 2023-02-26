@@ -8,8 +8,4 @@ export abstract class IInventory {
   public currentQuantity: number;
   public forecastPrice: number;
   public inInventory: boolean;
-  public createDate: Date;
-  public updateDate: Date;
-  public deleteDate: Date;
-  public isDeleted: boolean;
 }

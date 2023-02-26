@@ -8,6 +8,4 @@ export abstract class IBuy {
   public buyDate: Date;
   public brand: Brand;
   public items: Array<Inventory>;
-  public createdDate: Date;
-  public updatedDate: Date;
 }

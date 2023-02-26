@@ -2,7 +2,7 @@ import { BaseEntity } from 'rkc.base.back';
 import Inventory from 'src/app/inventory/entities/inventory.entity';
 import { Brand } from 'src/global/enums';
 import { IBuy } from './iBuy.interface';
-import { Column, CreateDateColumn, OneToMany, UpdateDateColumn } from 'typeorm';
+import { Column, OneToMany } from 'typeorm';
 
 export default class Buy extends BaseEntity implements IBuy {
   @OneToMany(() => Inventory, (inventory) => inventory.buy)
@@ -11,10 +11,6 @@ export default class Buy extends BaseEntity implements IBuy {
   public buyDate: Date;
   @Column({ enum: Brand, nullable: false })
   public brand: Brand;
-  @CreateDateColumn()
-  public createdDate: Date;
-  @UpdateDateColumn()
-  public updatedDate: Date;
 
   public get quantityItens(): number {
     let quantity = 0;

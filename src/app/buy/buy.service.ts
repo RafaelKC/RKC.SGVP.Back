@@ -18,7 +18,7 @@ export class BuyService implements IBuyService {
     return await this._buyRepository.findOneBy({ id: buyId });
   }
 
-  public async getAll(filterInput: BuyGetListInput): Promise<PagedGetListResult<Buy>> {
+  public async getList(filterInput: BuyGetListInput): Promise<PagedGetListResult<Buy>> {
     const result = await this._buyRepository.findAndCount({
       skip: filterInput.skipResultCount,
       take: filterInput.maxResultCount,

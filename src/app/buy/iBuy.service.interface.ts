@@ -5,6 +5,6 @@ import Buy from './entities/buy.entity';
 
 export abstract class IBuyService {
   public abstract getById(buyId: string): Promise<Buy | null>;
-  public abstract getAll(filterInput: BuyGetListInput): Promise<PagedGetListResult<Buy>>;
+  public abstract getList(filterInput: BuyGetListInput): Promise<PagedGetListResult<Buy>>;
   public abstract create(buy: BuyInput): Promise<Buy | null>;
 }
